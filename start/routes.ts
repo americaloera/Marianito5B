@@ -35,6 +35,17 @@ Route.resource('cargo/actions', 'CargosController')
 Route.resource('mesa/actions', 'MesasController')
 Route.get('mesa/mongo', 'MesasController.verMongo')
 
+
+//_---------------------------------------------------//
+
+Route.post('insMongo', 'MesasController.InsertarMongo')
+Route.post('buscarMongo', 'MesasController.MostrarMongo')
+Route.post('ocupacionMongo', 'MesasController.ModificarMongo')
+
+
+//------------------------------------------------------//
+
+
 Route.resource('cliente/actions', 'ClientesController')
 
 Route.resource('tipo/actions', 'TipoPlatillosController')
@@ -52,6 +63,8 @@ Route.post('reservacion/prueba', 'ReservacionsController.prueba')
 Route.resource('factura/actions', 'FacturasController')
 
 Route.resource('detalle/actions', 'DetalleFacturasController')
+
+
 
 Route.get('admin', 'UsersController.IsAdmin')
 

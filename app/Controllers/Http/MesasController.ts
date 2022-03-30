@@ -1,7 +1,10 @@
 // import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { schema, rules } from '@ioc:Adonis/Core/Validator'
 import Mesa_MG from 'App/Models/Mongo/Mesa_MG'
+import MongoInsert from 'App/Models/Mongo/MongoInsert'
 import Mesa from 'App/Models/Mesa'
+
+let num_mesa: any
 
 export default class MesasController {
     public async store({ request, response, auth }) {
@@ -18,7 +21,7 @@ export default class MesasController {
 
         const payload: any = await request.validate({ schema: mesaSchema })
         
-        const num_mesa = payload.num_mesa
+        num_mesa = payload.num_mesa
 
         const mesa: Mesa = await Mesa.create(payload)
         
@@ -28,11 +31,37 @@ export default class MesasController {
     }
 
     public async InsertarMongo({request, response}){
-        const num_mesa = request.input('num_mesa')
-        const ocupado = false
+        //const num_mesa = request.input('num_mesa')
+        //const ocupado = false
+        const arreglo_mesas = request.input('arreglo_mesas')
         const fecha = request.input('fecha')
 
-        await Mesa_MG.insertMany({num_mesa, ocupado, fecha})
+
+        await MongoInsert.insertMany({mesa: arreglo_mesas, ocupado: false, fecha: fecha})
+        //await Mesa_MG.find({fecha: fecha})
+        //await Mesa_MG.insertMany({num_mesa, ocupado, fecha})
+        response.ok({message: 'inserto correctamente'})
+    }
+
+    public async MostrarMongo({request, response}){
+
+        const fecha = request.input('fecha')
+
+        const mesa = await MongoInsert.find({fecha: fecha})
+
+        response.status(200).json({
+            message: "Consulta realizada correctamente",
+            data: mesa
+        })
+    }
+
+    public async ModificarMongo({response, request}){
+
+        const id = request.input('id')
+        await MongoInsert.updateOne({_id: id}, {ocupado: true})
+
+        response.ok({message: 'modificacion correcta'})
+
     }
 
     public async index({ response }) {
