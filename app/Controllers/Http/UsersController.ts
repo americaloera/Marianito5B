@@ -28,7 +28,7 @@ export default class UsersController {
                 rules.unique({table: 'users', column: 'email'}),
             ]),
             password: schema.string({}, [
-                rules.confirmed(),
+                //rules.confirmed(),
                 rules.minLength(8)
             ]),
             cargo:schema.number([])

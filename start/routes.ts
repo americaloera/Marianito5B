@@ -23,14 +23,13 @@ import Route from '@ioc:Adonis/Core/Route'
 Route.post('/user/login', 'UsersController.login')
 Route.resource('users', 'UsersController').apiOnly()
 
+Route.resource('cargo/actions', 'CargosController')
+
 Route.group(() => { 
 
 Route.get('/categoria', 'UsersController.categoria')
 
-
 Route.resource('user/actions', 'TokensController')
-
-Route.resource('cargo/actions', 'CargosController')
 
 Route.resource('mesa/actions', 'MesasController')
 Route.get('mesa/mongo', 'MesasController.verMongo')

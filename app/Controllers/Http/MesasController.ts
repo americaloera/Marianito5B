@@ -34,10 +34,13 @@ export default class MesasController {
         //const num_mesa = request.input('num_mesa')
         //const ocupado = false
         const arreglo_mesas = request.input('arreglo_mesas')
-        const fecha = request.input('fecha')
+        //const fecha = request.input('fecha')
+
+        await arreglo_mesas.forEach(mesa => {
+             MongoInsert.insertMany({num_mesa: mesa.num_mesa, idMesa: mesa.idMesa, usuario: mesa.usuario, ocupado: mesa.ocupado, fecha: mesa.fecha})
+        });
 
 
-        await MongoInsert.insertMany({mesa: arreglo_mesas, ocupado: false, fecha: fecha})
         //await Mesa_MG.find({fecha: fecha})
         //await Mesa_MG.insertMany({num_mesa, ocupado, fecha})
         response.ok({message: 'inserto correctamente'})
@@ -58,7 +61,8 @@ export default class MesasController {
     public async ModificarMongo({response, request}){
 
         const id = request.input('id')
-        await MongoInsert.updateOne({_id: id}, {ocupado: true})
+        const estado = request.input('estado')
+        await MongoInsert.updateOne({_id: id}, {ocupado: estado})
 
         response.ok({message: 'modificacion correcta'})
 
